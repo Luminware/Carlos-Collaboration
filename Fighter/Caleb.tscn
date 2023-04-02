@@ -1,0 +1,65 @@
+[gd_scene load_steps=7 format=3 uid="uid://b1i6fkm4cavc5"]
+
+[ext_resource type="Script" path="res://Caleb.gd" id="1_x4umb"]
+[ext_resource type="Texture2D" uid="uid://baowg78qpx1e5" path="res://Caleb Jab.png" id="2_7dwwb"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_av3ea"]
+size = Vector2(34.75, 55)
+
+[sub_resource type="Animation" id="Animation_7d7kq"]
+resource_name = "Jab"
+length = 0.3
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.02, 0.04, 0.06, 0.08, 0.1, 0.12, 0.15, 0.18, 0.21, 0.24, 0.27),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1),
+"update": 1,
+"values": [0, 1, 2, 3, 4, 5, 6, 5, 4, 3, 2, 1]
+}
+
+[sub_resource type="Animation" id="Animation_rld2b"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:frame")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pmajr"]
+_data = {
+"Jab": SubResource("Animation_7d7kq"),
+"RESET": SubResource("Animation_rld2b")
+}
+
+[node name="Caleb" type="CharacterBody2D"]
+slide_on_ceiling = false
+script = ExtResource("1_x4umb")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(9, 0)
+texture = ExtResource("2_7dwwb")
+hframes = 7
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(-1, -1)
+shape = SubResource("RectangleShape2D_av3ea")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_pmajr")
+}
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
